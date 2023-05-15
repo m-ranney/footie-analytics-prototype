@@ -1,1 +1,1 @@
-web: gunicorn footie-analytics-prototype:app
+web: gunicorn main:app
