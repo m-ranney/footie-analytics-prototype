@@ -119,9 +119,5 @@ def compute_team_stats(data):
 
     return team_stats_df
 
-
-
-
-
 if __name__ == "__main__":
     main()

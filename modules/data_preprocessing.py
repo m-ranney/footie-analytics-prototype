@@ -28,17 +28,21 @@ def preprocess_data(input_path, output_path):
     
     # Add a new column called 'half'
     df['half'] = ''
+
+    # Initialize the current half value
+    current_half = 1
     
     # Loop through the rows
     for i, row in df.iterrows():
         # If the cell in column 1 contains "Start of 1st Half"
         if "Start of 1st Half" in row['one']:
-            # Set the 'half' column for this row and all following rows to '1'
-            df.loc[i:, 'half'] = 1
+            current_half = 1
         # If the cell in column 1 contains "Start of 2nd Half"
         elif "Start of 2nd Half" in row['one']:
-            # Set the 'half' column for this row and all following rows to '2'
-            df.loc[i:, 'half'] = 2
+            current_half = 2
+
+        # Set the 'half' column for this row and all following rows to the current half value
+        df.loc[i:, 'half'] = current_half
     
     # Add a new column called 'quarter'
     df['quarter'] = ''
