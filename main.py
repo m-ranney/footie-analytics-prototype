@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 
+
 def compute_team_stats(data):
     team_stats = []
 
