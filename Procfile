@@ -1,1 +1,1 @@
-web: streamlit main:app
+web: gunicorn main:main
