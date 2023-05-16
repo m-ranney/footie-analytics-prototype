@@ -116,3 +116,53 @@ def compute_explosive_play_stats(data, explosive_play_yards=15):
     explosive_play_stats_df.set_index('Team', inplace=True)
 
     return explosive_play_stats_df
+
+def compute_down_stats(data, team):
+    down_stats = []
+
+    for down in ['1st', '2nd', '3rd', '4th']:
+        down_data = data[(data['poss'] == team) & (data['down'] == down)]
+
+        total_yards = down_data['yards'].sum()
+
+        pass_plays = down_data[down_data['playtype'] == 'Pass']
+        num_pass_plays = pass_plays.shape[0]
+        total_pass_yards = pass_plays['yards'].sum()
+
+        rush_plays = down_data[down_data['playtype'] == 'Rush']
+        num_rush_plays = rush_plays.shape[0]
+        total_rush_yards = rush_plays['yards'].sum()
+
+        total_team_yards = data[data['poss'] == team]['yards'].sum()
+        percent_yardage = (total_yards / total_team_yards) * 100 if total_team_yards > 0 else 0
+
+        passes_under_5_to_go = pass_plays[pass_plays['to_go'] < 5].shape[0]
+        runs_over_5_to_go = rush_plays[rush_plays['to_go'] > 5].shape[0]
+
+        down_stats.append([
+            down,
+            total_yards,
+            num_pass_plays,
+            total_pass_yards,
+            num_rush_plays,
+            total_rush_yards,
+            percent_yardage,
+            passes_under_5_to_go,
+            runs_over_5_to_go
+        ])
+
+    down_stats_df = pd.DataFrame(down_stats, columns=[
+        'Down',
+        'Total Yards Gained',
+        'Number of Pass Plays',
+        'Total Pass Yards',
+        'Number of Rush Plays',
+        'Total Rush Yards',
+        '% of Yardage Gained',
+        'Passes w/ Under 5 to go',
+        'Runs w/ Over 5 to go'
+    ])
+
+    down_stats_df.set_index('Down', inplace=True)
+
+    return down_stats_df

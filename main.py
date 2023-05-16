@@ -1,7 +1,7 @@
 import streamlit as st
 from modules import data_preprocessing
 from modules import data_processing
-from modules.data_processing import load_data, filter_data, compute_team_stats, compute_explosive_play_stats
+from modules.data_processing import load_data, filter_data, compute_team_stats, compute_explosive_play_stats, compute_down_stats
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
@@ -37,6 +37,15 @@ def main():
     explosive_play_stats_df = data_processing.compute_explosive_play_stats(data, explosive_play_yards).transpose()
     st.dataframe(explosive_play_stats_df)
 
+    # Add a selector for the team
+    st.header("Breakdown by Down")
+    unique_teams = list(data['poss'].unique())
+    selected_team = st.selectbox("Select a team", unique_teams)
+
+    # Compute and display the down stats for the selected team
+    down_stats_df = data_processing.compute_down_stats(data, selected_team)
+    st.dataframe(down_stats_df)
+  
     # Sidebar for filtering
     st.sidebar.header("Filter options")
 
