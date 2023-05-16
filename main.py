@@ -24,13 +24,14 @@ def main():
         
       # Save the uploaded file to a temporary location
         input_path = './data/' + uploaded_file.name
+        output_path = './data/preprocessed_' + uploaded_file.name
         with open(input_path, 'wb') as f:
             f.write(uploaded_file.getbuffer())
         # Preprocess the uploaded file
         data_preprocessing.preprocess_data(input_path, output_path)
 
         # Load the data
-        data = pd.read_csv(input_path)
+        data = pd.read_csv(output_path)
       
         # Display the team stats
         st.header("Team Statistics")
