@@ -14,7 +14,7 @@ def main():
     st.text(" ")
 
     # Read the lottie JSON file
-    with open('path_to_your_file.json', 'r') as f:
+    with open('football_v1.json', 'r') as f:
         lottie_dict = json.load(f)
 
     # Display the lottie animation
