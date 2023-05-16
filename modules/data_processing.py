@@ -12,7 +12,13 @@ def filter_data(data, selected_teams, selected_downs, selected_playtypes, select
     ]
 
 def compute_team_stats(data, team):
-    team_data = data[data['poss'].str.lower() == team.lower()]
+    # Convert the values in the 'poss' column to lowercase
+    data['poss'] = data['poss'].str.lower()
+    data['playtype'] = data['playtype'].str.lower()
+    data['ball_half'] = data['ball_half'].str.lower()
+    data['outcome'] = data['outcome'].str.lower()
+
+    team_data = data[data['poss'] == team.lower()]
     
     total_plays = team_data.shape[0]
     pass_plays = team_data[team_data['playtype'] == 'pass'].shape[0]
@@ -52,8 +58,7 @@ def compute_team_stats(data, team):
     }
 
     return team_stats
-
-
+  
 
 def compute_explosive_play_stats(data, explosive_play_yards=15):
     # Initialize an empty list to store the stats for each team
