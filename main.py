@@ -51,7 +51,6 @@ def main():
         # Add a selector for the team
         st.header("Breakdown by Down")
         unique_teams = list(data['poss'].unique())
-        selected_team = st.selectbox("Select a team", unique_teams)
     
         # Compute and display the down stats for the selected team
         down_stats_df = data_processing.compute_down_stats(data, selected_team).transpose()
