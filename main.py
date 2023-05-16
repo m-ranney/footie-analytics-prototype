@@ -9,19 +9,17 @@ from streamlit_lottie import st_lottie
 import json
 
 def main():
-    st.title("Football Statistics")
+    st.markdown("<h1 style='text-align: center;'>Football Statistics</h1>", unsafe_allow_html=True)
 
-    st.text(" ")
-
-    # Read the lottie JSON file
+    st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
     with open('football_v1.json', 'r') as f:
         lottie_dict = json.load(f)
-
-    # Display the lottie animation
     st_lottie(lottie_dict, width=400)
-  
-    # File upload
+    st.markdown("</div>", unsafe_allow_html=True)
+
+    st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
     uploaded_file = st.file_uploader("Choose a file", type="csv")
+    st.markdown("</div>", unsafe_allow_html=True)
     
     if uploaded_file is not None:
 
