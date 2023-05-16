@@ -28,8 +28,6 @@ def preprocess_data(input_path, output_path):
     
     # Add a new column called 'half'
     df['half'] = ''
-
-    # Initialize the current half value
     current_half = 1
     
     # Loop through the rows
@@ -43,11 +41,10 @@ def preprocess_data(input_path, output_path):
 
         # Set the 'half' column for this row and all following rows to the current half value
         df.loc[i:, 'half'] = current_half
-    
+
+  
     # Add a new column called 'quarter'
     df['quarter'] = ''
-    
-    # Initialize the current quarter value
     current_quarter = 1
     
     # Loop through the rows
@@ -95,7 +92,28 @@ def preprocess_data(input_path, output_path):
             return np.nan # return NaN if the pattern is not found
     
     df['to_go'] = df.apply(fill_to_go, axis=1)
+
     
+    # Extract the team abbreviation
+    df['team_abbr'] = df['poss'].apply(lambda x: re.search(r'[A-Z]+', x).group(0) if pd.notnull(x) else x)
+
+    # Determine the half
+    df['ball_half'] = df.apply(lambda row: 'own' if pd.notnull(row['team_abbr']) and row['team_abbr'].lower() in row['one'].lower() else 'opponents', axis=1)
+
+    # Extract the yardline
+    def extract_yardline(x):
+        if pd.notnull(x):
+            match = re.search(r'(\d+)$', x)  # find a number at the end of the string
+            if match:
+                return int(match.group(0))
+        return np.nan  # return NaN if pattern is not found or x is None
+    
+    df['yardline'] = df['one'].apply(extract_yardline)
+
+    # Add drive cumulative sums - ignorning empty possessions
+    df['drive'] = ((df['poss'] != df['poss'].shift()) & df['poss'].notna()).cumsum()
+
+  
     def fill_playtype(row):
         # Define the list of words to search for and their corresponding play types
         words = [('Pass', 'Pass'), 
@@ -104,6 +122,8 @@ def preprocess_data(input_path, output_path):
                  ('Sack', 'Pass'), 
                  ('Field Goal', 'Field Goal'), 
                  ('Punt', 'Punt'), 
+                 ('Kick Attempt', 'Kick Attempt'),
+                 ('Penalty', 'Penalty'),
                  ('Kickoff', 'Kickoff')]
     
         # Check if the value in the 'two' column is a string
@@ -182,7 +202,7 @@ def preprocess_data(input_path, output_path):
     df = df.dropna(subset=['playtype', 'yards', 'outcome'], how='all')
     
     # Rearrange column order (keeping one and two for data checking right now)
-    df = df[['half', 'quarter', 'poss', 'down', 'to_go', 'playtype', 'yards', 'outcome', 'one', 'two']]
+    df = df[['half', 'quarter', 'poss', 'down', 'to_go', 'playtype', 'yards', 'outcome', 'ball_half', 'yardline', 'drive', 'one', 'two']]
     
 
     df.to_csv(output_path, index=False)
