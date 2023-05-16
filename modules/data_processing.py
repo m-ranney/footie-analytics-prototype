@@ -119,6 +119,9 @@ def compute_explosive_play_stats(data, explosive_play_yards=15):
 
 def compute_down_stats(data, team):
     down_stats = []
+  
+    # Ensure 'to_go' is numeric
+    data['to_go'] = pd.to_numeric(data['to_go'], errors='coerce')
 
     for down in ['1st', '2nd', '3rd', '4th']:
         down_data = data[(data['poss'] == team) & (data['down'] == down)]
