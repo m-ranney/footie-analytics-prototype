@@ -30,6 +30,14 @@ def main():
     team_stats_df = data_processing.compute_team_stats(data)
     st.dataframe(team_stats_df)
 
+    # Get the explosive play yard threshold from the user
+    st.header("Explosive Plays")
+    explosive_play_yards = st.number_input("Enter the minimum number of yards for a play to be considered explosive", min_value=1, value=15)
+
+    # Compute the explosive play stats and display them
+    explosive_play_stats_df = data_processing.compute_explosive_play_stats(data, explosive_play_yards)
+    st.dataframe(explosive_play_stats_df)  
+
     # Sidebar for filtering
     st.sidebar.header("Filter options")
 
