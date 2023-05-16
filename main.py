@@ -26,8 +26,10 @@ def main():
   
     # Display the team stats
     st.header("Team Statistics")
-    team_stats_df = data_processing.compute_team_stats(data)
-    st.dataframe(team_stats_df)
+    selected_team = st.selectbox("Select a team", data['poss'].unique())
+    team_stats = data_processing.compute_team_stats(data, selected_team)
+    st.table(pd.DataFrame(team_stats, index=[selected_team]).T)
+
 
     # Get the explosive play yard threshold from the user
     st.header("Explosive Plays")
