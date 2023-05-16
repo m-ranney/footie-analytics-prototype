@@ -27,7 +27,7 @@ def main():
   
     # Display the team stats
     st.header("Team Statistics")
-    team_stats_df = compute_team_stats(data)
+    team_stats_df = data_processing.compute_team_stats(data)
     st.dataframe(team_stats_df)
 
     # Sidebar for filtering
@@ -67,13 +67,6 @@ def main():
         plt.ylabel('Total Yards')
         plt.title('Total Yards Gained by Each Team')
         st.pyplot(plt)
-
-
-# Display the team stats
-st.header("Team Statistics")
-team_stats_df = data_processing.compute_team_stats(data)
-st.dataframe(team_stats_df)
-
 
 if __name__ == "__main__":
     main()
