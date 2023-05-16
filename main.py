@@ -13,9 +13,8 @@ def main():
 
     with open('football_v2.json', 'r') as f:
         lottie_dict = json.load(f)
-        st.container()
+        st.container(align='center')
         st_lottie(lottie_dict, width=400)
-        st.center()
 
     st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
     uploaded_file = st.file_uploader("Choose a file", type="csv")
