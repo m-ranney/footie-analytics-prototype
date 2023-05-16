@@ -54,7 +54,7 @@ def main():
         selected_team2 = st.selectbox("Select a team", unique_teams, key='team_select_2')
     
         # Compute and display the down stats for the selected team
-        down_stats_df = data_processing.compute_down_stats(data, selected_team_2).transpose()
+        down_stats_df = data_processing.compute_down_stats(data, selected_team2).transpose()
         st.dataframe(down_stats_df)
       
         # Sidebar for filtering
