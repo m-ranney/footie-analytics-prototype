@@ -12,11 +12,12 @@ def main():
 
     st.text(" ")
 
-    lottie_url = "https://assets6.lottiefiles.com/packages/lf20_n918Sz.json"
+    lottie_url = "https://lottiefiles.com/100005-position-american-football"
     st_lottie(lottie_url, width=400)
   
     # File upload
     uploaded_file = st.file_uploader("Choose a file", type="csv")
+    
     if uploaded_file is not None:
 
         st.empty()  # This line will clear the previous elements (like the lottie animation) from the page
