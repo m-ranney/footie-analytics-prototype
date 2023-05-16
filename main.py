@@ -11,7 +11,7 @@ import json
 def main():
     st.markdown("<h1 style='text-align: center;'>Football Statistics</h1>", unsafe_allow_html=True)
 
-    with open('football_v1.json', 'r') as f:
+    with open('football_v2.json', 'r') as f:
         lottie_dict = json.load(f)
         st.container()
         st_lottie(lottie_dict, width=400)
