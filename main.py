@@ -25,7 +25,7 @@ def main():
 
         st.empty()  # This line will clear the previous elements (like the lottie animation) from the page
         
-      # Save the uploaded file to a temporary location
+        # Save the uploaded file to a temporary location
         input_path = './data/' + uploaded_file.name
         output_path = './data/preprocessed_' + uploaded_file.name
         with open(input_path, 'wb') as f:
