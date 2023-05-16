@@ -35,7 +35,7 @@ def main():
       
         # Display the team stats
         st.header("Team Statistics")
-        selected_team = st.selectbox("Select a team", data['poss'].unique())
+        selected_team = st.selectbox("Select a team", data['poss'].unique(), key='team_select_1')
         team_stats = data_processing.compute_team_stats(data, selected_team)
         st.table(pd.DataFrame(team_stats, index=[selected_team]).T)
     
@@ -51,9 +51,10 @@ def main():
         # Add a selector for the team
         st.header("Breakdown by Down")
         unique_teams = list(data['poss'].unique())
+        selected_team2 = st.selectbox("Select a team", unique_teams, key='team_select_2')
     
         # Compute and display the down stats for the selected team
-        down_stats_df = data_processing.compute_down_stats(data, selected_team).transpose()
+        down_stats_df = data_processing.compute_down_stats(data, selected_team_2).transpose()
         st.dataframe(down_stats_df)
       
         # Sidebar for filtering
