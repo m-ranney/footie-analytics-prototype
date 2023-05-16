@@ -6,14 +6,19 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import os
 from streamlit_lottie import st_lottie
+import json
 
 def main():
     st.title("Football Statistics")
 
     st.text(" ")
 
-    lottie_url = "https://lottiefiles.com/100005-position-american-football"
-    st_lottie(lottie_url, width=400)
+    # Read the lottie JSON file
+    with open('path_to_your_file.json', 'r') as f:
+        lottie_dict = json.load(f)
+
+    # Display the lottie animation
+    st_lottie(lottie_dict, width=400)
   
     # File upload
     uploaded_file = st.file_uploader("Choose a file", type="csv")
