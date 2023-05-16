@@ -1,7 +1,7 @@
 import streamlit as st
 from modules import data_preprocessing
 from modules import data_processing
-from modules.data_processing import compute_team_stats
+from modules.data_processing import load_data, filter_data, compute_team_stats, compute_explosive_play_stats
 import matplotlib.pyplot as plt
 import pandas as pd
 import os
@@ -23,7 +23,6 @@ def main():
 
     # Load the data
     data = pd.read_csv(output_path)
-    st.write(data)
   
     # Display the team stats
     st.header("Team Statistics")
@@ -34,9 +33,9 @@ def main():
     st.header("Explosive Plays")
     explosive_play_yards = st.number_input("Enter the minimum number of yards for a play to be considered explosive", min_value=1, value=15)
 
-    # Compute the explosive play stats and display them
-    explosive_play_stats_df = data_processing.compute_explosive_play_stats(data, explosive_play_yards)
-    st.dataframe(explosive_play_stats_df)  
+    # Compute the explosive play stats, transpose the DataFrame, and display it
+    explosive_play_stats_df = data_processing.compute_explosive_play_stats(data, explosive_play_yards).transpose()
+    st.dataframe(explosive_play_stats_df)
 
     # Sidebar for filtering
     st.sidebar.header("Filter options")

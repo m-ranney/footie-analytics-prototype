@@ -112,4 +112,7 @@ def compute_explosive_play_stats(data, explosive_play_yards=15):
         '% of Total Yards from Ex'
     ])
 
+    # Set the 'Team' column as the index
+    explosive_play_stats_df.set_index('Team', inplace=True)
+
     return explosive_play_stats_df
