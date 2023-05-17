@@ -35,26 +35,26 @@ def compute_team_stats(data, team):
     first_downs_per_drive = (first_downs - total_drives) / total_drives if total_drives > 0 else 0
     first_down_rate = (first_downs - total_drives) / total_plays if total_plays > 0 else 0
 
-    redzone_rushes = team_data[(team_data['playtype'] == 'rush') & 
+    redzone_rushes = int(team_data[(team_data['playtype'] == 'rush') & 
                                (team_data['ball_half'] == 'opponents') & 
-                               (team_data['yardline'] <= 20)].shape[0]
+                               (team_data['yardline'] <= 20)].shape[0])
     
-    redzone_passes = team_data[(team_data['playtype'] == 'pass') & 
+    redzone_passes = int(team_data[(team_data['playtype'] == 'pass') & 
                                (team_data['ball_half'] == 'opponents') & 
-                               (team_data['yardline'] <= 20)].shape[0]
+                               (team_data['yardline'] <= 20)].shape[0])
 
     total_yards_per_drive = team_data.groupby('drive')['yards'].sum().mean()
 
     team_stats = {
         'Total Plays': total_plays,
-        '% of Pass Plays': percent_pass_plays,
-        '% of Rush Plays': percent_rush_plays,
-        'Drives per Score': drives_per_score,
-        '1st Downs per Drive': first_downs_per_drive,
-        '1st Down Rate': first_down_rate,
+        '% of Pass Plays': f'{percent_pass_plays * 100:.2f}%',
+        '% of Rush Plays': f'{percent_rush_plays * 100:.2f}%',
+        'Drives per Score': f'{drives_per_score:.2f}',
+        '1st Downs per Drive': f'{first_downs_per_drive:.2f}',
+        '1st Down Rate': f'{first_down_rate * 100:.2f}%',
         'Runs in Red Zone': redzone_rushes,
         'Passes in Red Zone': redzone_passes,
-        'Average Yards per Drive': total_yards_per_drive,
+        'Average Yards per Drive': f'{total_yards_per_drive:.2f}',
     }
 
     return team_stats
@@ -81,9 +81,9 @@ def compute_explosive_play_stats(data, explosive_play_yards=15):
         explosive_rushes = explosive_data[explosive_data['playtype'].str.lower() == 'rush'].shape[0]
         explosive_tds = explosive_data[explosive_data['outcome'].str.lower() == 'touchdown'].shape[0]
         total_yards_from_ex = explosive_data['yards'].sum()
-        avg_yards_per_ex = total_yards_from_ex / total_explosive_plays if total_explosive_plays > 0 else 0
-        perc_of_total_yards_from_ex = (total_yards_from_ex / total_yards) * 100 if total_yards > 0 else 0
-
+        avg_yards_per_ex = round(total_yards_from_ex / total_explosive_plays, 2) if total_explosive_plays > 0 else 0
+        perc_of_total_yards_from_ex = round((total_yards_from_ex / total_yards) * 100, 2) if total_yards > 0 else 0
+      
         # Add the stats for the current team to the list
         explosive_play_stats.append([
             team,
@@ -124,16 +124,16 @@ def compute_down_stats(data, team):
 
         total_yards = down_data['yards'].sum()
 
-        pass_plays = down_data[down_data['playtype'] == 'Pass']
+        pass_plays = down_data[down_data['playtype'] == 'pass']
         num_pass_plays = pass_plays.shape[0]
         total_pass_yards = pass_plays['yards'].sum()
 
-        rush_plays = down_data[down_data['playtype'] == 'Rush']
+        rush_plays = down_data[down_data['playtype'] == 'rush']
         num_rush_plays = rush_plays.shape[0]
         total_rush_yards = rush_plays['yards'].sum()
 
         total_team_yards = data[data['poss'] == team]['yards'].sum()
-        percent_yardage = (total_yards / total_team_yards) * 100 if total_team_yards > 0 else 0
+        percent_yardage = round((total_yards / total_team_yards) * 100, 2) if total_team_yards > 0 else 0
 
         passes_under_5_to_go = pass_plays[pass_plays['to_go'] < 5].shape[0]
         runs_over_5_to_go = rush_plays[rush_plays['to_go'] > 5].shape[0]
