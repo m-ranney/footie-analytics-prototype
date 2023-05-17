@@ -13,6 +13,7 @@ def main():
 
     with open('football_v2.json', 'r') as f:
         lottie_dict = json.load(f)
+        lottie_dict['url'] = 'https://assets6.lottiefiles.com/packages/lf20_n918Sz.json'
         st.markdown("""
         <div style='text-align: center;'>
             <lottie-player
