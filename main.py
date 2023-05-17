@@ -17,7 +17,7 @@ def main():
     
     left_co, cent_co,last_co = st.columns(3)
     with cent_co:
-        st_lottie(lottie_dict, width=400)
+        st_lottie(lottie_dict, width=200)
 
     st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
     uploaded_file = st.file_uploader("Choose a file", type="csv")
