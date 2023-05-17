@@ -11,18 +11,20 @@ import json
 def main():
     st.markdown("<h1 style='text-align: center;'>Football Statistics</h1>", unsafe_allow_html=True)
 
+    # Read the lottie JSON file
     with open('football_v2.json', 'r') as f:
         lottie_dict = json.load(f)
-        lottie_dict['url'] = 'https://assets6.lottiefiles.com/packages/lf20_n918Sz.json'
-        st.markdown("""
-        <div style='text-align: center;'>
-            <lottie-player
-                src="{}"
-                width="400"
-                controls>
-            </lottie-player>
-        </div>
-        """.format(lottie_dict['url']), unsafe_allow_html=True)
+    
+    col1, col2, col3 = st.columns(3)
+    
+    with col1:
+        st.write(' ')
+    
+    with col2:
+        st_lottie(lottie_dict, width=400)
+    
+    with col3:
+        st.write(' ')
 
     st.markdown("<div style='text-align: center;'>", unsafe_allow_html=True)
     uploaded_file = st.file_uploader("Choose a file", type="csv")
